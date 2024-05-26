@@ -1,5 +1,6 @@
 import flet as ft
 import webbrowser
+from projects_lists import get_repos
 
 
 def main(page: ft.Page):
@@ -9,6 +10,41 @@ def main(page: ft.Page):
     
     def open_url(url: str):
         webbrowser.open(url)
+        
+    def go_to_about_page():
+        page.clean()
+        page.add(intro_page)
+        page.add(page_changer)
+        page.update()
+        
+    def go_to_projects_page():
+        page.clean()
+        page.add(projects_page)
+        page.add(page_changer)
+        page.update()
+        
+    def go_to_experience_page():
+        page.clean()
+        page.add(experience_page)
+        page.add(page_changer)
+        page.update()
+        
+    def go_to_contact_page():
+        page.clean()
+        page.add(contact_page)
+        page.add(page_changer)
+        page.update()
+        
+    def on_change(e):
+        value = int(e.data[2])
+        if value == 1:
+            go_to_about_page()
+        elif value == 2:
+            go_to_projects_page()
+        elif value == 3:
+            go_to_experience_page()
+        elif value == 4:
+            go_to_contact_page()
     
     images = [
         ft.CupertinoButton(
@@ -23,6 +59,30 @@ def main(page: ft.Page):
             content=ft.Image("https://cdn-icons-png.flaticon.com/512/61/61109.png", height=35, width=35),
             on_click=lambda e: open_url("https://www.linkedin.com/in/dev-alexandre-tavares/"),
         ),
+    ]
+    
+    projects = [
+        ft.CupertinoButton(
+            content=ft.Card(
+                content=ft.Row(
+                    [
+                        ft.Column(
+                            [
+                                ft.Image("https://c4.wallpaperflare.com/wallpaper/851/501/292/minimalism-programming-code-wallpaper-preview.jpg", height=50, width=200, fit='COVER'),
+                                ft.Text(f"{project.name}", size='18', weight='BOLD', width=200, height=30,),
+                                ft.Text(f"{project.description}", size='14', max_lines=3, width=200, height=80),
+                            ],
+                            alignment=ft.MainAxisAlignment.CENTER,
+                            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                        ),
+                    ],
+                    alignment=ft.MainAxisAlignment.CENTER,
+                    vertical_alignment=ft.CrossAxisAlignment.CENTER,
+                ),
+            ),
+            on_click=lambda e: open_url(project.url),
+        ) for project in get_repos()   
+              
     ]
         
     intro_page = ft.Row(
@@ -46,18 +106,31 @@ def main(page: ft.Page):
         vertical_alignment=ft.CrossAxisAlignment.CENTER,
     )
     
+    projects_page = ft.GridView(
+        controls=projects,
+        expand=True,
+        runs_count=5,
+        child_aspect_ratio=1.25,
+    )
+    
+    experience_page = ft.Row(
+    )
+    
+    contact_page = ft.Row(
+    )
+    
     page_changer = ft.Row(
         [
           ft.Column(
               [
                 ft.SegmentedButton(
-                    selected={1,},
+                    selected={1},
                     allow_multiple_selection=False,
                     segments=[
                         ft.Segment(
                             value=1,
                             label=ft.Text("About", size='18', weight='BOLD'),
-                            icon=ft.Icon(ft.icons.PERSON)
+                            icon=ft.Icon(ft.icons.PERSON),
                         ),
                         ft.Segment(
                             value=2,
@@ -75,6 +148,7 @@ def main(page: ft.Page):
                             icon=ft.Icon(ft.icons.PERSON)
                         ),
                     ],
+                    on_change=on_change,
                 ),
               ],
             alignment=ft.MainAxisAlignment.CENTER,
@@ -84,12 +158,11 @@ def main(page: ft.Page):
         alignment=ft.MainAxisAlignment.CENTER,
         vertical_alignment=ft.CrossAxisAlignment.CENTER,
     )
-        
     
     page.add(intro_page)
     page.add(page_changer)
-    
     page.update()
 
 
-ft.app(main, assets_dir="assets")
+if __name__ == "__main__":
+    ft.app(target = main, view=ft.AppView.WEB_BROWSER, assets_dir="assets")
