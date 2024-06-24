@@ -1,6 +1,6 @@
 import flet as ft
-import webbrowser
-# from projects_lists import get_repos
+# import webbrowser
+from projects_lists import get_projects
 
 
 def main(page: ft.Page):
@@ -9,7 +9,7 @@ def main(page: ft.Page):
     page.theme_mode = ft.ThemeMode.DARK
     
     def open_url(url: str):
-        webbrowser.open(url)
+        page.launch_url(url)
         
     def go_to_about_page():
         page.clean()
@@ -62,26 +62,26 @@ def main(page: ft.Page):
     ]
     
     projects = [
-        # ft.CupertinoButton(
-        #     content=ft.Card(
-        #         content=ft.Row(
-        #             [
-        #                 ft.Column(
-        #                     [
-        #                         ft.Image("https://c4.wallpaperflare.com/wallpaper/851/501/292/minimalism-programming-code-wallpaper-preview.jpg", height=50, width=200, fit='COVER'),
-        #                         ft.Text(f"{project.name}", size='18', weight='BOLD', width=200, height=30,),
-        #                         ft.Text(f"{project.description}", size='14', max_lines=3, width=200, height=80),
-        #                     ],
-        #                     alignment=ft.MainAxisAlignment.CENTER,
-        #                     horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-        #                 ),
-        #             ],
-        #             alignment=ft.MainAxisAlignment.CENTER,
-        #             vertical_alignment=ft.CrossAxisAlignment.CENTER,
-        #         ),
-        #     ),
-        #     on_click=lambda e: open_url(project.url),
-        # ) for project in get_repos()
+        ft.CupertinoButton(
+            content=ft.Card(
+                content=ft.Row(
+                    [
+                        ft.Column(
+                            [
+                                ft.Image("project_wallpaper.jpg", height=50, width=200, fit='COVER'),
+                                ft.Text(f"{project.name}", size='18', weight='BOLD', width=200, height=30,),
+                                ft.Text(f"{project.description}", size='14', max_lines=3, width=200, height=80),
+                            ],
+                            alignment=ft.MainAxisAlignment.CENTER,
+                            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                        ),
+                    ],
+                    alignment=ft.MainAxisAlignment.CENTER,
+                    vertical_alignment=ft.CrossAxisAlignment.CENTER,
+                ),
+            ),
+            on_click=lambda e: open_url(project.git_url),
+        ) for project in get_projects()
     ]
         
     intro_page = ft.Row(
@@ -89,7 +89,7 @@ def main(page: ft.Page):
             ft.Column(
                 [
                     ft.Text("Alexandre Tavares", size='36', weight='BOLD'),
-                    ft.Text("Software Engineer | Machine Learning Engineer", size='24',),
+                    ft.Text("Software Engineer | Machine Learning Engineer", size='24'),
                     ft.Row(
                         [
                             image for image in images
@@ -113,7 +113,25 @@ def main(page: ft.Page):
     )
     
     experience_page = ft.Row(
+        [
+            ft.Column(
+                [
+                    ft.Text("Experience", size='36', weight='BOLD'),
+                    ft.Text("Software Developer | Software Engineer | Machine Learning Engineer", size='24'),
+                    ft.Text("2023 - Present", size='18', weight='BOLD'),
+                    ft.Text("Software Engineer at KONIA", size='18'),
+                    ft.Text("2022 - 2023", size='18', weight='BOLD'),
+                    ft.Text("DevOps Consultant at KONIA", size='18'),
+                    ft.Text("2021 - 2022", size='18', weight='BOLD'),
+                    ft.Text("SAM Consultant at SoftwareONE", size='18'),
+                ],
+                alignment=ft.MainAxisAlignment.CENTER,
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+            ), 
+        ],
         expand=True,
+        alignment=ft.MainAxisAlignment.CENTER,
+        vertical_alignment=ft.CrossAxisAlignment.CENTER,
     )
     
     contact_page = ft.Row(
@@ -165,5 +183,4 @@ def main(page: ft.Page):
     page.update()
 
 
-if __name__ == "__main__":
-    ft.app(target = main, view=ft.AppView.WEB_BROWSER, assets_dir="assets")
+ft.app(main, assets_dir="assets")
