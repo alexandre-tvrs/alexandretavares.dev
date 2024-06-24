@@ -64,7 +64,7 @@ def main(page: ft.Page):
     projects = [
         ft.CupertinoButton(
             content=ft.Card(
-                content=ft.Row(
+                content=ft.ResponsiveRow(
                     [
                         ft.Column(
                             [
@@ -84,7 +84,7 @@ def main(page: ft.Page):
         ) for project in get_projects()
     ]
         
-    intro_page = ft.Row(
+    intro_page = ft.ResponsiveRow(
         [
             ft.Column(
                 [
@@ -112,7 +112,7 @@ def main(page: ft.Page):
         child_aspect_ratio=1.25,
     )
     
-    experience_page = ft.Row(
+    experience_page = ft.ResponsiveRow(
         [
             ft.Column(
                 [
@@ -134,11 +134,11 @@ def main(page: ft.Page):
         vertical_alignment=ft.CrossAxisAlignment.CENTER,
     )
     
-    contact_page = ft.Row(
+    contact_page = ft.ResponsiveRow(
         expand=True,
     )
     
-    page_changer = ft.Row(
+    page_changer = ft.ResponsiveRow(
         [
           ft.Column(
               [
