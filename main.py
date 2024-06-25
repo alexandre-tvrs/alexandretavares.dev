@@ -7,6 +7,24 @@ def main(page: ft.Page):
     page.title = "Alexandre Tavares"
     page.description = "Professional profile of Alexandre Tavares"
     page.theme_mode = ft.ThemeMode.DARK
+
+    def ChatTCC(e):
+        open_url("https://github.com/alexandre-tvrs/backend-tcc")
+        
+    def WrathOfElements(e):
+        open_url("https://github.com/alexandre-tvrs/wrath-of-elements")
+        
+    def TargonApp(e):
+        open_url("https://github.com/alexandre-tvrs/target-generator")
+        
+    def ProjectENV(e):
+        open_url("https://github.com/alexandre-tvrs/-api-project.env")
+        
+    def KotaroBOT(e):
+        open_url("https://github.com/alexandre-tvrs/kotaro-bot")
+        
+    def LoLResultPrevision(e):
+        open_url("https://google.com")
     
     def open_url(url: str):
         page.launch_url(url)
@@ -61,30 +79,21 @@ def main(page: ft.Page):
         ),
     ]
     
-    projects = [
-        ft.CupertinoButton(
-            content=ft.Card(
-                content=ft.ResponsiveRow(
-                    [
-                        ft.Column(
-                            [
-                                ft.Image("project_wallpaper.jpg", height=50, width=200, fit='COVER'),
-                                ft.Text(f"{project.name}", size='18', weight='BOLD', width=200, height=30,),
-                                ft.Text(f"{project.description}", size='14', max_lines=3, width=200, height=80),
-                            ],
-                            alignment=ft.MainAxisAlignment.CENTER,
-                            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-                        ),
-                    ],
-                    alignment=ft.MainAxisAlignment.CENTER,
-                    vertical_alignment=ft.CrossAxisAlignment.CENTER,
-                ),
-            ),
-            on_click=lambda e: open_url(project.git_url),
-        ) for project in get_projects()
-    ]
+    projects = []
+    
+    for project in get_projects():
+        projects.append(
+            ft.CupertinoListTile(
+                title = ft.Text(project.name, size='24', weight='BOLD'),
+                subtitle = ft.Text(project.description, size='18'),
+                leading = ft.Image("https://cdn-icons-png.flaticon.com/512/25/25231.png", height=35, width=35),
+                additional_info = ft.Text("GitHub", size='18'),
+                trailing = ft.Icon(ft.icons.ARROW_RIGHT),
+                on_click = eval(project.name),
+            )
+        )
         
-    intro_page = ft.ResponsiveRow(
+    intro_page = ft.Row(
         [
             ft.Column(
                 [
@@ -105,14 +114,21 @@ def main(page: ft.Page):
         vertical_alignment=ft.CrossAxisAlignment.CENTER,
     )
     
-    projects_page = ft.GridView(
-        controls=projects,
+    projects_page = ft.Row(
+        [
+            ft.Column(
+                [
+                    project for project in projects
+                ],
+            ),    
+        ],
+        alignment=ft.MainAxisAlignment.CENTER,
+        vertical_alignment=ft.CrossAxisAlignment.CENTER,
         expand=True,
-        runs_count=5,
-        child_aspect_ratio=1.25,
+        wrap=True,
     )
     
-    experience_page = ft.ResponsiveRow(
+    experience_page = ft.Row(
         [
             ft.Column(
                 [
@@ -134,11 +150,36 @@ def main(page: ft.Page):
         vertical_alignment=ft.CrossAxisAlignment.CENTER,
     )
     
-    contact_page = ft.ResponsiveRow(
+    contact_page = ft.Row(
+        [
+          ft.Column(
+            [
+                ft.Text("Contact", size='36', weight='BOLD'),
+                ft.Text("Email: alexandre.j.tavares.jr@gmail.com", size='24'),
+                ft.Text("Phone: +55 11 91178-7430", size='24'),
+                ft.Row(
+                    [
+                        ft.CupertinoButton(
+                            content=ft.Image("https://seeklogo.com/images/W/whatsapp-logo-0DBD89C8E2-seeklogo.com.png", height=35, width=35),
+                            on_click=lambda e: open_url("https://wa.me/5511911787430"),
+                            ),
+                        ft.CupertinoButton(
+                            content=ft.Image("https://static.vecteezy.com/system/resources/previews/006/892/625/original/discord-logo-icon-editorial-free-vector.jpg", height=35, width=35),
+                            on_click=lambda e: open_url("https://discord.gg/XszRx6mBzE"),
+                        ),
+                    ],
+                )
+            ],
+            alignment=ft.MainAxisAlignment.CENTER,
+            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+          ),
+        ],
         expand=True,
+        alignment=ft.MainAxisAlignment.CENTER,
+        vertical_alignment=ft.CrossAxisAlignment.CENTER,
     )
     
-    page_changer = ft.ResponsiveRow(
+    page_changer = ft.Row(
         [
           ft.Column(
               [
